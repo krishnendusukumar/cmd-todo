@@ -1,8 +1,6 @@
-@import 'tailwindcss/base';
-
-@import 'tailwindcss/components';
-
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 body {
   margin: 0;
@@ -11,6 +9,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #02202b;
 }
 
 code {
@@ -28,4 +27,7 @@ code {
   html body {
   height: 100%;
   width: 100%;
+  }
+  .custom-color {
+    background-color: #02202b;
   }
