@@ -27,9 +27,11 @@ function SignUp() {
             <CiUnlock className='w-12 h-16 rounded-3xl text-white custom-color' />
             </div>
         </div>
-        <button className='text-orange-200 rounded-3xl h-16 w-60 mt-12 bg-black'>
-        <Link className='mx-2 text-orange-200' to="/home">Login</Link>
-        </button>
+        <Link className='mx-2 text-orange-200' to="/home">
+            <button className='text-orange-200 rounded-3xl h-16 w-60 mt-12 bg-black'>
+                Login
+            </button>
+        </Link>
 
         </div>
     </div>
