@@ -12,7 +12,7 @@ function Home() {
       <div>
         <div className='flex justify-between w-60'>
           <div className='text-3xl'>Show</div>
-        <Link className='mx-2 text-orange-200 mb-12' to="/signup"><IoArrowForwardCircle size={40}/></Link>
+        <Link className='mx-2 text-orange-200 mb-12' to="/show"><IoArrowForwardCircle size={40}/></Link>
         </div>
         <div className='flex justify-between mb-12 w-60'>
           <div className='text-3xl'>Create</div>
