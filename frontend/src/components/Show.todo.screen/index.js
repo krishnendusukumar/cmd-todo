@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import axios from 'axios';
+import { AdminContext } from '../Context.admin.id';
 
 function Show() {
     const [data, setData] = useState();
+    const {adminId} = useContext(AdminContext)
+
     useEffect(() => {
         async function fetch() {
             try{
-                const result = await axios.get('http://localhost:8000/get',{
+                const token = localStorage.getItem('token')
+                const result = await axios.get(`http://localhost:8080/get/${adminId}`,{
                     headers : {
                         "Content-Type" : 'application/json',
-                        "Authorization" : "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiZGlndmlqYXkiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MDY1ODk0MTIsImV4cCI6MTcwNjU5MzAxMn0.xUZFU1w0mc081CliKqgpj5oH-BQv6B-9sHZWPc35qbw"
+                        "authorisation" : `bearer ${token}`
                     }
                 }
                 )
@@ -26,13 +30,16 @@ function Show() {
     }, [])
 
   return (
-    <div> 
+    <div className='flex flex-wrap justify-center items-center h-screen'> 
         {
             data ? (
             data.map((item, index) => (
-                <div key={index}>
-                    {item.title} + " " + {item.description}
-                </div>
+                <div key={index} className='bg-amber-100 max-w-1/2 rounded overflow-hidden shadow-lg m-4'>
+                    <div className='px-4 py-6'>
+                    <div class="font-bold text-xl mb-2">{item.title}</div>
+                    <div className='text-gray-700 text-base'>{item.description}</div>
+                        </div>
+                            </div>
             ))
             ) : null
         }

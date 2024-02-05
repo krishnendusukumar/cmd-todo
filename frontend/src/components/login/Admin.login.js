@@ -1,12 +1,42 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { CiUser } from "react-icons/ci";
 import { CiUnlock } from "react-icons/ci";
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
+import { useContext } from 'react';
+import { AdminContext } from '../Context.admin.id';
 
 
 function Login() {
+
+    const [username, setUsername] = useState();
+    const [password, setPassword] = useState();
+    const {adminId, setAdminId} = useContext(AdminContext)
+    const [error, setError] = useState(false);
+
+
+    async function handleLogin(){
+        try{
+            const body = {username, password};
+            const response = await axios.post('http://localhost:8080/login', body);
+            const token = await response.data.token;
+            const adminId = await response.data.user;
+            setAdminId(adminId)
+            localStorage.setItem('token', token)
+            console.log(response.data)
+        }
+        catch(error) {
+            console.log(error)
+            setError(true)
+        }
+    }
+
   return (
+    <>
+    {error 
+        ? 
+            alert("some error occurred")
+        :
     <div className='flex flex-col justify-center items-center text-white h-screen mb-96'>
         <h3 className='text-4xl mb-24'>
             Admin Login
@@ -17,19 +47,19 @@ function Login() {
             <CiUser className='mr-2 w-12 h-16 rounded-3xl text-white custom-color'/>
             </div>
             <div>
-                <input placeholder='Enter username' className='rounded-3xl w-60 h-16 bg-black text-center'></input>
+                <input placeholder='Enter username' className='text-white rounded-3xl w-60 h-16 bg-black text-center' onChange={(e) => setUsername(e.target.value)}></input>
             </div>
         </div>
         <div className='flex text-black mt-10'>
             <div>
-                <input placeholder='Enter password' className='z-40 ml-12 w-60 h-16 bg-black rounded-3xl text-center outline-orange-200'></input>
+                <input placeholder='Enter password' className='text-white z-40 ml-12 w-60 h-16 bg-black rounded-3xl text-center outline-orange-200' onChange={(e) => setPassword(e.target.value)}></input>
             </div>
             <div className='text-black'>
             <CiUnlock className='ml-2 w-12 h-16 rounded-3xl text-white custom-color' />
             </div>
         </div>
         <Link className='mx-2 text-orange-200' to="/home">
-            <button className='text-orange-200 rounded-3xl h-16 w-60 mt-12 bg-black'>
+            <button className='text-orange-200 rounded-3xl h-16 w-60 mt-12 bg-black' onClick={handleLogin}>
                 Login
             </button>
         </Link>
@@ -42,6 +72,8 @@ function Login() {
         </div>
         </div>
     </div>
+}
+    </>
   )
 }
 

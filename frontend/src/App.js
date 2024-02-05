@@ -8,12 +8,14 @@ import Update from './components/Update.todo.screen/Update';
 import Delete from './components/Delete.todo.screen';
 import Navbar from './components/Navbar';
 import Show from './components/Show.todo.screen';
+import { AdminProvider } from './components/Context.admin.id';
 
 function App() {
   return (
      <div className="App">
-      <Navbar/>
-      <Routes>
+      <AdminProvider>
+        <Navbar/>
+        <Routes>
         <Route path='/login' Component={Login}/>
         <Route path='/signup' Component={SignUp}/>
         <Route path='/home' Component={Home} />
@@ -21,7 +23,8 @@ function App() {
         <Route path='/update' Component={Update} />
         <Route path='/delete' Component={Delete} />
         <Route path='/show' Component={Show} />
-      </Routes>
+        </Routes>
+      </AdminProvider>
      </div>
   );
 }

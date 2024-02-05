@@ -1,9 +1,10 @@
 const express = require('express');
 const app = express();
-const port = 8000;
+const port = 8080;
 const cors = require('cors');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const {Schema} = require('mongoose')
 
 app.use(cors())
 app.use(express.json());
@@ -12,6 +13,7 @@ const secret = '403270432j4h23jk4hk234';
 
 const attachjwt = (user) => {
   const token =  jwt.sign({user, role : 'admin'} , secret , {expiresIn : '1h'});
+  // localStorage.setItem("token" , token);
   return token;
 }
 
@@ -24,7 +26,10 @@ const adminSchema = new mongoose.Schema({
 
 const todoSchema = new mongoose.Schema({
   title : String,
-  description : String
+  description : String,
+  tags : [String],
+  status : String,
+  adminId : {type : Schema.Types.ObjectId, ref: 'Admin'}
 },{
   timestamps: true // Automatically add createdAt and updatedAt fields
 })
@@ -40,10 +45,12 @@ mongoose.connect('mongodb+srv://krrishnendusukumar:INDUK1965@cluster2.oe2wq9r.mo
 });
 
 async function authenticate(req, res, next) {
-  const auth = req.headers.auth;
+  const auth = req.headers.authorisation;
+  const adminId = req.params.adminId;
   const token = auth.split(' ')[1];
   jwt.verify(token, secret, (err, res) => {
     if(err) return res.sendStatus(403)
+    req.user = adminId
     next();
   })
 }
@@ -52,8 +59,12 @@ async function handlelogin(req, res) {
   const {username, password} = req.body;
   const user = await Admin.findOne({username});
   if(user) {
+    const token = attachjwt(username)
     if(user.password === password) return res.send({
-      message : "login successfully"
+      message : "login successfully",
+      user : user._id,
+      token
+
     })
     else return res.send({
       message : "please enter correct password"
@@ -80,6 +91,7 @@ async function handlesignup(req, res) {
     await newAdmin.save();
     return res.send({
       message : "sign up successful",
+      user : newAdmin.id,
       token
     })
   }
@@ -88,22 +100,23 @@ async function handlesignup(req, res) {
  
 async function getAll(req, res) {
   console.log("Fetching all todos");
-  const todos = await Todo.find({});
+  const adminId = req.user;
+  const todos = await Todo.find({adminId});
   return res.send({ todos: todos });
 }
 
 
 async function postTodo(req, res) {
-  const { title, description } = req.body;
+  const { title, description, tags, status } = req.body;
   const user = req.headers;
-
-  
-
-  const token = attachjwt(user);
+  const userId = req.user
 
     const newTodo = new Todo({
       title: title,
       description: description,
+      tags: tags.split(" "),
+      status : status,
+      adminId : userId
     });  
 
     await newTodo.save();
@@ -149,11 +162,11 @@ async function deleteTodo(req, res) {
 }
 
 
-app.post('/login', authenticate, handlelogin);
+app.post('/login', handlelogin);
 app.post('/signup', handlesignup);
-app.get('/get', getAll);
-app.post('/post', postTodo);
-app.delete('/delete/:id', deleteTodo);
-app.put('/put/:id', modifyTodo);
+app.get('/get/:adminId', authenticate, getAll);
+app.post('/post/:adminId', authenticate, postTodo);
+app.delete('/delete/:adminId/:id', authenticate , deleteTodo);
+app.put('/put/:adminId/:id', authenticate , modifyTodo);
 
 app.listen(port, () => console.log("Server started, please check on your port"));
