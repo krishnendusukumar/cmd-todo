@@ -1,29 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { CiUser } from "react-icons/ci";
 import { CiUnlock } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useContext } from 'react';
-import { AdminContext } from '../Context.admin.id';
+
 
 
 function Login() {
 
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
-    const {adminId, setAdminId} = useContext(AdminContext)
     const [error, setError] = useState(false);
 
+    const [adminId, setAdminId] = useState();
+
+    useEffect(() => {
+        let admintoken = localStorage.getItem('adminid');
+        admintoken = JSON.parse(admintoken);
+        setAdminId(admintoken);
+    }, [])
 
     async function handleLogin(){
         try{
             const body = {username, password};
             const response = await axios.post('http://localhost:8080/login', body);
-            const token = await response.data.token;
+            let token = await response.data.token;
             const adminId = await response.data.user;
             setAdminId(adminId)
+            token = JSON.stringify(token)
             localStorage.setItem('token', token)
             console.log(response.data)
+            console.log(adminId)
         }
         catch(error) {
             console.log(error)
@@ -71,6 +78,9 @@ function Login() {
             <Link className='mx-2 text-orange-200' to="/signup">Create an account</Link>
         </div>
         </div>
+        {
+            adminId ? <div>alert(`${adminId}`)</div> : null
+        }
     </div>
 }
     </>

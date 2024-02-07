@@ -1,16 +1,24 @@
 import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { AdminContext } from '../Context.admin.id';
 
 function Add() {
-    const {adminId} = useContext(AdminContext);
+
+    const [adminId, setAdminId] = useState();
+
+
+    useEffect(() => {
+        let admintoken = localStorage.getItem('adminid');
+        admintoken = JSON.parse(admintoken);
+        setAdminId(admintoken);
+    }, [])
 
     const [addTodo, setAddTodo] = useState({
         title : "",
         description : "",
         tags : "",
-        status : ""
+        status : "",
+        adminId : adminId
     })
     function handleInput(e, type) {
         console.log(type, "this is the type")
@@ -25,12 +33,13 @@ function Add() {
     async function handleAdd() {
         console.log(addTodo.title , addTodo.description, addTodo.tags , addTodo.status)
             try{
-                const token = localStorage.getItem('token')
+                let token = localStorage.getItem('token')
+                token = JSON.parse(token)
                 axios.post(`http://localhost:8080/post/${adminId}`
                 , addTodo,
                 {
                     headers : {
-                        "authorisation" : `bearer ${token}`
+                        "authorization" : `bearer ${token}`
                     }
                 })
             }

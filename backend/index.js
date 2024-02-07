@@ -45,7 +45,7 @@ mongoose.connect('mongodb+srv://krrishnendusukumar:INDUK1965@cluster2.oe2wq9r.mo
 });
 
 async function authenticate(req, res, next) {
-  const auth = req.headers.authorisation;
+  const auth = req.headers.authorization;
   const adminId = req.params.adminId;
   const token = auth.split(' ')[1];
   jwt.verify(token, secret, (err, res) => {
@@ -108,15 +108,14 @@ async function getAll(req, res) {
 
 async function postTodo(req, res) {
   const { title, description, tags, status } = req.body;
-  const user = req.headers;
-  const userId = req.user
+  const id = req.user
 
     const newTodo = new Todo({
       title: title,
       description: description,
       tags: tags.split(" "),
       status : status,
-      adminId : userId
+      adminId : id
     });  
 
     await newTodo.save();

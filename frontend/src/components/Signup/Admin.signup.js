@@ -1,13 +1,11 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import { CiUser } from "react-icons/ci";
 import { CiUnlock } from "react-icons/ci";
 import { Link } from 'react-router-dom';
-import { AdminContext } from '../Context.admin.id';
 import axios from 'axios';
 
 
 function SignUp() {
-    const {adminId, setAdminId} = useContext(AdminContext)
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
@@ -16,8 +14,10 @@ function SignUp() {
         const body = {username, password}
         try{
         const response = await axios.post('http://localhost:8080/signup', body);
-        const user = response.data.user;
-        const token = response.data.token;
+        const user = await response.data.user;
+        let token = await response.data.token;
+        token = JSON.stringify(token)
+        localStorage.setItem('token', token)
         console.log(response.data)
         setAdminId(user);
         }

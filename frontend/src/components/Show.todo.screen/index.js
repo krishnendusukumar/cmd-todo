@@ -1,19 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios';
-import { AdminContext } from '../Context.admin.id';
 
 function Show() {
-    const [data, setData] = useState();
-    const {adminId} = useContext(AdminContext)
+    const [data, setData] = useState([]);
 
+    const [adminId, setAdminId] = useState();
+
+
+    useEffect(() => {
+        let admintoken = localStorage.getItem('adminid');
+        admintoken = JSON.parse(admintoken);
+        setAdminId(admintoken);
+    }, [])
+    
     useEffect(() => {
         async function fetch() {
             try{
-                const token = localStorage.getItem('token')
+                let token = localStorage.getItem('token')
+                token = JSON.parse(token)
                 const result = await axios.get(`http://localhost:8080/get/${adminId}`,{
                     headers : {
                         "Content-Type" : 'application/json',
-                        "authorisation" : `bearer ${token}`
+                        "authorization" : `bearer ${token}`
                     }
                 }
                 )
