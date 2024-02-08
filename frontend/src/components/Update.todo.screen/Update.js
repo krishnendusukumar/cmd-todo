@@ -1,7 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import useAdminid from '../../hook/useAdminid'
 
 function Update() {
+    const {adminId, token} = useAdminid();
 
   return (
     <div className='flex flex-col justify-center items-center text-white h-screen'>

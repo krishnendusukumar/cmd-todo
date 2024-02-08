@@ -12,25 +12,16 @@ function Login() {
     const [password, setPassword] = useState();
     const [error, setError] = useState(false);
 
-    const [adminId, setAdminId] = useState();
-
-    useEffect(() => {
-        let admintoken = localStorage.getItem('adminid');
-        admintoken = JSON.parse(admintoken);
-        setAdminId(admintoken);
-    }, [])
-
     async function handleLogin(){
         try{
             const body = {username, password};
             const response = await axios.post('http://localhost:8080/login', body);
             let token = await response.data.token;
-            const adminId = await response.data.user;
-            setAdminId(adminId)
+            let adminId = await response.data.user;
             token = JSON.stringify(token)
+            adminId = JSON.stringify(adminId)
             localStorage.setItem('token', token)
-            console.log(response.data)
-            console.log(adminId)
+            localStorage.setItem('adminId', adminId)
         }
         catch(error) {
             console.log(error)
@@ -78,9 +69,6 @@ function Login() {
             <Link className='mx-2 text-orange-200' to="/signup">Create an account</Link>
         </div>
         </div>
-        {
-            adminId ? <div>alert(`${adminId}`)</div> : null
-        }
     </div>
 }
     </>

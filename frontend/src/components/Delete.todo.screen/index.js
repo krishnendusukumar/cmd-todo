@@ -2,25 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { IoArrowForwardCircle } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import useAdminid from '../../hook/useAdminid';
 
 function Delete() {
 
   const [search , setSearch] = useState();
   const [data, setData] = useState();
-
-  const [adminId, setAdminId] = useState();
-
-  useEffect(() => {
-        let admintoken = localStorage.getItem('adminid');
-        admintoken = JSON.parse(admintoken);
-        setAdminId(admintoken);
-  }, [])
+  const {adminId, token} = useAdminid()
 
   async function handleSearch() {
     try{
-
-      let token = localStorage.getItem('token');
-      token = JSON.parse(token);
       const response = await axios.get(`http://localhost:8080/get/${adminId}`, {
         headers : {
           "Content-Type" : 'application/json',

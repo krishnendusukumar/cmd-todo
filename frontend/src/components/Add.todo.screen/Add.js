@@ -1,18 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import useAdminid from '../../hook/useAdminid';
 
 function Add() {
-
-    const [adminId, setAdminId] = useState();
-
-
-    useEffect(() => {
-        let admintoken = localStorage.getItem('adminid');
-        admintoken = JSON.parse(admintoken);
-        setAdminId(admintoken);
-    }, [])
-
+    const {adminId, token} = useAdminid();
     const [addTodo, setAddTodo] = useState({
         title : "",
         description : "",
