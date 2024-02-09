@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import useAdminid from '../../hook/useAdminid';
 
 function Home() {
-  const {adminId, token} = useAdminid();
+  const {adminId, token, username} = useAdminid();
   
     return (
       <>
@@ -12,7 +12,7 @@ function Home() {
           adminId ? 
             <div className='flex flex-col justify-center items-center text-white h-screen'>
               <div className='text-4xl absolute top-20'>
-                <h1>Welcome to Home your admin id is  {adminId}</h1>
+                <h1>Welcome to Home <i className='text-purple-500'>{username.toUpperCase()}</i></h1>
               </div>
               <div>
                 <div className='flex justify-between w-60'>

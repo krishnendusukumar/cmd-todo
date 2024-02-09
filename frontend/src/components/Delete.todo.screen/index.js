@@ -8,7 +8,7 @@ import useAdminid from '../../hook/useAdminid';
 function Delete() {
 
   const [deleted, setDeleted] = useState()
-  const {adminId, token} = useAdminid()
+  const {adminId, token, username} = useAdminid()
 
   const location = useLocation()
     console.log(location)

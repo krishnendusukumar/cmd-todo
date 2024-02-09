@@ -62,10 +62,9 @@ async function handlelogin(req, res) {
     const token = attachjwt(username)
     if(user.password === password) return res.send({
       message : "login successfully",
-      username : username,
+      username,
       user : user._id,
       token
-
     })
     else return res.send({
       message : "please enter correct password"

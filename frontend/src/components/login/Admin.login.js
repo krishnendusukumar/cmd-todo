@@ -3,6 +3,8 @@ import { CiUser } from "react-icons/ci";
 import { CiUnlock } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { IoEyeSharp } from "react-icons/io5";
+import { FaEyeSlash } from "react-icons/fa";
 
 
 
@@ -11,6 +13,8 @@ function Login() {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const [error, setError] = useState(false);
+    const [showPassword, setShowPassword] = useState(false)
+
 
     async function handleLogin(){
         try{
@@ -18,13 +22,13 @@ function Login() {
             const response = await axios.post('http://localhost:8080/login', body);
             let token = await response.data.token;
             let adminId = await response.data.user;
-            let username = response.data.username;
-            username = JSON.stringify(username);
+            let username = await response.data.username;
             token = JSON.stringify(token)
             adminId = JSON.stringify(adminId)
-            localStorage.setItem('username', username)
+            username = JSON.stringify(username);
             localStorage.setItem('token', token)
             localStorage.setItem('adminId', adminId)
+            localStorage.setItem('username', username)
         }
         catch(error) {
             console.log(error)
@@ -51,12 +55,20 @@ function Login() {
                 <input placeholder='Enter username' className='text-white rounded-3xl w-60 h-16 bg-black text-center' onChange={(e) => setUsername(e.target.value)}></input>
             </div>
         </div>
-        <div className='flex text-black mt-10'>
+        <div className='flex text-black mt-10 ml-2'>
             <div>
-                <input placeholder='Enter password' className='text-white z-40 ml-12 w-60 h-16 bg-black rounded-3xl text-center outline-orange-200' onChange={(e) => setPassword(e.target.value)}></input>
+                <input type={showPassword ? 'text' : 'password'} placeholder='Enter password' className='text-white z-40 ml-12 w-60 h-16 bg-black rounded-3xl text-center outline-orange-200' onChange={(e) => setPassword(e.target.value)}></input>
             </div>
             <div className='text-black'>
-            <CiUnlock className='ml-2 w-12 h-16 rounded-3xl text-white custom-color' />
+            <button className='w-12 h-16 rounded-3xl text-white ml-2' onClick={() => setShowPassword(!showPassword)}>
+                {
+                    showPassword 
+                    ?
+                    <IoEyeSharp size={32} />
+                    :
+                    <FaEyeSlash size={32}/>
+                }
+            </button>
             </div>
         </div>
         <Link className='mx-2 text-orange-200' to="/home">

@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { LuListTodo } from "react-icons/lu";
 import { Link } from 'react-router-dom';
 import { IoMenu, IoClose } from "react-icons/io5";
+import useAdminid from '../../hook/useAdminid';
 
 function Navbar() {
   const [active, setActive] = useState("active");
+  const {username} = useAdminid()
 
   return (
     <div className='absolute top-0 h-16 p-2 flex justify-between w-full'>
@@ -29,8 +31,8 @@ function Navbar() {
 
         {
           active === 'active' ?
-          <div className='absolute'>
-            <h1></h1>
+          <div className='absolute bg-white'>
+            <h1>{username}</h1>
           </div>
           :
           null

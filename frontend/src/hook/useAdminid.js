@@ -5,7 +5,9 @@ function useAdminid() {
   token = JSON.parse(token)
   let adminId = localStorage.getItem('adminId');
   adminId = JSON.parse(adminId);
-  return {adminId, token};
+  let username = localStorage.getItem('username');
+  username = JSON.parse(username)
+  return {adminId, token, username};
 }
 
 export default useAdminid

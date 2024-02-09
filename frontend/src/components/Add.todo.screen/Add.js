@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import useAdminid from '../../hook/useAdminid';
 
 function Add() {
-    const {adminId, token} = useAdminid();
+    const {adminId, token, username} = useAdminid();
     const [addTodo, setAddTodo] = useState({
         title : "",
         description : "",
