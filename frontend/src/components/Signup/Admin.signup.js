@@ -3,23 +3,25 @@ import { CiUser } from "react-icons/ci";
 import { CiUnlock } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import useAdminid from '../../hook/useAdminid';
 
 
 function SignUp() {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
-
     async function handlesignup(){
         const body = {username, password}
         try{
         const response = await axios.post('http://localhost:8080/signup', body);
         const user = await response.data.user;
+        let username = response.data.username;
+        username = JSON.stringify(username);
         let token = await response.data.token;
         token = JSON.stringify(token)
+        localStorage.setItem('username', username)
         localStorage.setItem('token', token)
-        console.log(response.data)
-        setAdminId(user);
+        localStorage.setItem('adminId', user)
         }
         catch(error) {
             console.log(error)
@@ -48,7 +50,7 @@ function SignUp() {
             <CiUnlock className='w-12 h-16 rounded-3xl text-white custom-color' />
             </div>
         </div>
-        <Link className='mx-2 text-orange-200' to="/login">
+        <Link className='mx-2 text-orange-200' to="/home">
             <button className='text-orange-200 rounded-3xl h-16 w-60 mt-12 bg-black' onClick={handlesignup}>
                 Login
             </button>

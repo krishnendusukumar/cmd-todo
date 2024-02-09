@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import useAdminid from '../../hook/useAdminid';
+import ShowTable from '../ShowTable';
+
+
 
 function Show() {
     const [data, setData] = useState([]);
@@ -29,17 +32,11 @@ function Show() {
     }, [])
 
   return (
-    <div className='flex flex-wrap justify-center items-center h-screen'> 
+    <div className='flex flex-wrap justify-center items-center h-screen bg-brown text-pink-500'> 
         {
             data ? (
-            data.map((item, index) => (
-                <div key={index} className='bg-amber-100 max-w-1/2 rounded overflow-hidden shadow-lg m-4'>
-                    <div className='px-4 py-6'>
-                    <div class="font-bold text-xl mb-2">{item.title}</div>
-                    <div className='text-gray-700 text-base'>{item.description}</div>
-                        </div>
-                            </div>
-            ))
+
+                <ShowTable data={data}/>
             ) : null
         }
     </div>

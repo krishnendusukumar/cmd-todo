@@ -62,6 +62,7 @@ async function handlelogin(req, res) {
     const token = attachjwt(username)
     if(user.password === password) return res.send({
       message : "login successfully",
+      username : username,
       user : user._id,
       token
 
@@ -92,6 +93,7 @@ async function handlesignup(req, res) {
     return res.send({
       message : "sign up successful",
       user : newAdmin.id,
+      username,
       token
     })
   }

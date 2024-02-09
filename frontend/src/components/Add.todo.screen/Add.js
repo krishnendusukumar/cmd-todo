@@ -9,7 +9,7 @@ function Add() {
         title : "",
         description : "",
         tags : "",
-        status : "",
+        status : "Open",
         adminId : adminId
     })
     function handleInput(e, type) {
@@ -59,11 +59,6 @@ function Add() {
         <div className='flex justify-between w-68'>
             <div>
                 <input className='rounded-2xl w-60 h-12 mb-12 outline-orange-200 bg-black text-center text-lg' value={addTodo.tags} onChange={(e) => handleInput(e, "tags")} placeholder='Enter tags with spaces' />
-            </div>
-        </div>
-        <div className='flex justify-between w-68'>
-            <div>
-                <input className='rounded-2xl w-60 h-12 mb-12 outline-orange-200 bg-black text-center text-lg' value={addTodo.status} onChange={(e) => handleInput(e, "status")} placeholder='Enter Status with spaces' />
             </div>
         </div>
         <div className=''>

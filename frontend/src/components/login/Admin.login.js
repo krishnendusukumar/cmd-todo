@@ -18,8 +18,11 @@ function Login() {
             const response = await axios.post('http://localhost:8080/login', body);
             let token = await response.data.token;
             let adminId = await response.data.user;
+            let username = response.data.username;
+            username = JSON.stringify(username);
             token = JSON.stringify(token)
             adminId = JSON.stringify(adminId)
+            localStorage.setItem('username', username)
             localStorage.setItem('token', token)
             localStorage.setItem('adminId', adminId)
         }

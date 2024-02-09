@@ -8,6 +8,7 @@ import Update from './components/Update.todo.screen/Update';
 import Delete from './components/Delete.todo.screen';
 import Navbar from './components/Navbar';
 import Show from './components/Show.todo.screen';
+import Find from './components/find.todo.screen';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/update' Component={Update} />
         <Route path='/delete' Component={Delete} />
         <Route path='/show' Component={Show} />
+        <Route path='/find' Component={Find} />
         </Routes>
      </div>
   );

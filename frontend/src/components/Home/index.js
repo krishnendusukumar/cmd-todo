@@ -24,12 +24,8 @@ function Home() {
                   <Link className='mx-2 text-orange-200' to="/add"><IoArrowForwardCircle size={40}/></Link>
                 </div>
                 <div className='flex justify-between mb-12 w-60'>
-                  <div className='text-3xl'>Update</div>
-                  <Link className='mx-2 text-orange-200' to="/update"><IoArrowForwardCircle size={40}/></Link>
-                </div>
-                <div className='flex justify-between mb-12 w-60'>
-                  <div className='text-3xl'>Delete</div>
-                  <Link className='mx-2 text-orange-200' to="/delete"><IoArrowForwardCircle size={40}/></Link>
+                  <div className='text-3xl'>Find</div>
+                  <Link className='mx-2 text-orange-200' to="/find"><IoArrowForwardCircle size={40}/></Link>
                 </div>
               </div>
             </div>
