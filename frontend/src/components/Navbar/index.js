@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LuListTodo } from "react-icons/lu";
 import { Link } from 'react-router-dom';
 import { IoMenu, IoClose } from "react-icons/io5";
-import useAdminid from '../../hook/useAdminid';
+import axios from 'axios';
 
 function Navbar() {
-  const [active, setActive] = useState("active");
-  const {username} = useAdminid()
+  const [active, setActive] = useState('active')
+ 
 
   return (
-    <div className='absolute top-0 h-16 p-2 flex justify-between w-full'>
+    <div className='absolute top-0 right-0 h-16 p-2 flex justify-between w-full'>
 
         <div className='mt-2 cursor-pointer'>
             <Link to="/home">
@@ -19,24 +19,16 @@ function Navbar() {
         <div>
           {
             active === 'active' ? 
-            <button onClick={() => setActive("none")}>
+            <button onClick={() => setActive("null")}>
               <IoMenu size={40} style={{color : 'yellow'}} />
             </button>
             : 
-            <button onClick={() => setActive("active")}>
+            <button onClick={() => setActive('active')}>
               <IoClose size={40} style={{color : 'yellow'}} />
             </button>          
             } 
         </div>
-
-        {
-          active === 'active' ?
-          <div className='absolute bg-white'>
-            <h1>{username}</h1>
-          </div>
-          :
-          null
-        }
+          
     </div>
   )
 }

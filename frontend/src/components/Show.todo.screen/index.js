@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import useAdminid from '../../hook/useAdminid';
 import ShowTable from '../ShowTable';
+import Nodata from '../Nodata';
 
 
 
 function Show() {
     const [data, setData] = useState([]);
     const {adminId, token} = useAdminid();
-    
     useEffect(() => {
         async function fetch() {
             try{
@@ -37,7 +37,8 @@ function Show() {
             data ? (
 
                 <ShowTable data={data}/>
-            ) : null
+            ) : 
+             null
         }
     </div>
   )

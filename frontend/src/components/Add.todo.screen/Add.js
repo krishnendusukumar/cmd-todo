@@ -26,7 +26,6 @@ function Add() {
         console.log(addTodo.title , addTodo.description, addTodo.tags , addTodo.status)
             try{
                 let token = localStorage.getItem('token')
-                token = JSON.parse(token)
                 axios.post(`http://localhost:8080/post/${adminId}`
                 , addTodo,
                 {

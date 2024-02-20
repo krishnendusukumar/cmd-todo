@@ -1,30 +1,34 @@
 import './App.css';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from './components/login/Admin.login';
-import SignUp from './components/Signup/Admin.signup';
-import Home from './components/Home';
-import Add from './components/Add.todo.screen/Add';
-import Update from './components/Update.todo.screen/Update';
-import Delete from './components/Delete.todo.screen';
-import Navbar from './components/Navbar';
-import Show from './components/Show.todo.screen';
-import Find from './components/find.todo.screen';
+import { Suspense } from 'react';
+const Login = React.lazy(() => import('./components/login/Admin.login'));
+const SignUp = React.lazy(() => import('./components/Signup/Admin.signup'));
+const Home = React.lazy(() => import('./components/Home'));
+const Add = React.lazy(() => import('./components/Add.todo.screen/Add'));
+const Update = React.lazy(() => import('./components/Update.todo.screen/Update'));
+const Delete = React.lazy(() => import('./components/Delete.todo.screen'));
+const Navbar = React.lazy(() => import('./components/Navbar'));
+const Show = React.lazy(() => import('./components/Show.todo.screen'));
+const Find = React.lazy(() => import('./components/find.todo.screen'));
 
 function App() {
   return (
-     <div className="App">
+    <div className="App">
+      <Suspense fallback={<div>Loading...</div>}>
         <Navbar/>
         <Routes>
-        <Route path='/login' Component={Login}/>
-        <Route path='/signup' Component={SignUp}/>
-        <Route path='/home' Component={Home} />
-        <Route path='/add' Component={Add} />
-        <Route path='/update' Component={Update} />
-        <Route path='/delete' Component={Delete} />
-        <Route path='/show' Component={Show} />
-        <Route path='/find' Component={Find} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/add' element={<Add />} />
+          <Route path='/update' element={<Update />} />
+          <Route path='/delete' element={<Delete />} />
+          <Route path='/show' element={<Show />} />
+          <Route path='/find' element={<Find />} />
         </Routes>
-     </div>
+      </Suspense>
+    </div>
   );
 }
 

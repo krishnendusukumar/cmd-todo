@@ -49,20 +49,44 @@ async function authenticate(req, res, next) {
   const adminId = req.params.adminId;
   const token = auth.split(' ')[1];
   jwt.verify(token, secret, (err, res) => {
-    if(err) return res.sendStatus(403)
+    if(err) res.send({
+      message : "403 error occurred"
+    })
     req.user = adminId
     next();
   })
 }
 
+async function user(req, res) {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.sendStatus(401); 
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    const decoded = jwt.verify(token, secret);
+    console.log(decoded.user)
+
+    // Send back the decoded payload containing the username
+    res.send({
+      username: decoded.user
+    });
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    res.sendStatus(403); // Forbidden
+  }
+}
+
+
 async function handlelogin(req, res) {
   const {username, password} = req.body;
-  const user = await Admin.findOne({username});
+  const user = await Admin.findOne({ username });
   if(user) {
     const token = attachjwt(username)
     if(user.password === password) return res.send({
       message : "login successfully",
-      username,
       user : user._id,
       token
     })
@@ -161,7 +185,7 @@ async function deleteTodo(req, res) {
     }
 }
 
-
+app.get('/user', user);
 app.post('/login', handlelogin);
 app.post('/signup', handlesignup);
 app.get('/get/:adminId', authenticate, getAll);

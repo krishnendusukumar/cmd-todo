@@ -1,16 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { Tag } from "antd";
 import { Button, Table, Modal, Input, Select, DatePicker } from "antd";
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import Nodata from '../Nodata';
 const { Option } = Select;
 
 
 function ShowTable(props) {
-    const [editState, setEditstate] = useState();
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-
+  
     function Edit(e){
       console.log(e)
       const {_id, title,description, tags, status} = e;
@@ -88,14 +89,34 @@ function ShowTable(props) {
           },
       ]
 
+
+      useEffect(() => {
+        setTimeout(() => {
+          setLoading(false)
+        }, 1000);
+      }, [])
+
       
 
     
       return (
-        <Table
-        rowClassName={"table-color"} dataSource={props.data} columns={columns}
-    pagination={{ pageSize: 20, total: 50, showSizeChanger: false }}
-  />
+        <>
+        {
+          loading ? 
+          <span class="loader"></span>
+          : 
+
+            props.data.length === 0 ? 
+            <div className='w-1/2 rounded-2xl'>
+            <Nodata/>
+            </div>
+            :
+            <Table
+            rowClassName={"table-color"} dataSource={props.data} columns={columns}
+            pagination={{ pageSize: 20, total: 50, showSizeChanger: false }}
+            />
+          }
+        </>
   )
 }
 
