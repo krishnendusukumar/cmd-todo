@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
-
+import { useDispatch } from 'react-redux';
+import { setToken } from '../../actions';
 
 
 function Login() {
@@ -14,6 +15,7 @@ function Login() {
     const [password, setPassword] = useState();
     const [error, setError] = useState(false);
     const [showPassword, setShowPassword] = useState(false)
+    const dispatch = useDispatch()
 
 
     async function handleLogin(){
@@ -24,6 +26,7 @@ function Login() {
             let adminId = await response.data.user;
             localStorage.setItem('token', token)
             localStorage.setItem('adminId', adminId)
+            dispatch(setToken(token))
         }
         catch(error) {
             console.log(error)

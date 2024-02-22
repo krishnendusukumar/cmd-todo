@@ -1,36 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import { IoArrowForwardCircle, IoConstructOutline } from "react-icons/io5";
+import { IoArrowForwardCircle } from "react-icons/io5";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {useSelector} from 'react-redux'
 
 function Home() {
   const [username, setUsername] = useState()
-
-
+  const token = useSelector((state) => state.token)
+  console.log(token)
 
   useEffect(() => {
-    async function handleNavigate () {
-      try{
-        const token = localStorage.getItem('token')
-        console.log(token)
-        var response = await axios.get(`http://localhost:8080/user`,
-        {
-          headers : {
-            "authorization" : `bearer ${token}`
-          }
-        })
-        console.log(response)
-        const user = await response.data.username
-        setUsername(user)
-        
-      }
-      catch(err) {
-        console.log("some error occurred", err)
-      }
+    const checkUsername = async () => {
+        try {
+            if (token) { // Check if token is defined
+                const response = await axios.get(`http://localhost:8080/user`, {
+                    headers: {
+                        "authorization": `bearer ${token}`
+                    }
+                });
+                const user = response.data.username;
+                setUsername(user);
+            }
+        } catch (err) {
+            console.log("Some error occurred", err);
+        }
     };
-
-    handleNavigate();
-  }, [username])
+    checkUsername();
+}, [token]); 
 
   return (
     <>
