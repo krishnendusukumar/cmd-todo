@@ -21,7 +21,7 @@ function Show() {
                 )
                 const resulted = await result.data.todos
                 setData(resulted)
-                console.log(resulted)
+                console.log(resulted, "loaded")
             }
             catch(err) {
                 console.log("console reached here")

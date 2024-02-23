@@ -118,5 +118,16 @@ code {
     100% { transform: rotate(360deg) }
   }
 
+  .Toastify__toast--error {
+    border: 1px solid #EB5757;
+    border-radius: 20px !important;
+    background: black !important;
+}
+
+.Toastify__toast--sucess {
+  border: 1px solid green !important;
+  border-radius: 20px !important;
+  background: black !important;
+}
    
 

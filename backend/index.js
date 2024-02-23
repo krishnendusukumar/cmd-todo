@@ -17,6 +17,13 @@ const attachjwt = (user) => {
   return token;
 }
 
+const reverse = (todos) => {
+  let i = 0, j = todos.length - 1;
+  const temp = todos[j];
+  todos[j--] = todos[i];
+  todos[i++] = temp;
+}
+
 const adminSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -126,7 +133,7 @@ async function handlesignup(req, res) {
 async function getAll(req, res) {
   console.log("Fetching all todos");
   const adminId = req.user;
-  const todos = await Todo.find({adminId});
+  let todos = await Todo.find({adminId});
   return res.send({ todos: todos });
 }
 

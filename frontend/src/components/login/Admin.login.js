@@ -1,45 +1,55 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { CiUser } from "react-icons/ci";
-import { CiUnlock } from "react-icons/ci";
-import { Link } from 'react-router-dom';
+import { Link, Navigate, redirect } from 'react-router-dom';
 import axios from 'axios';
 import { IoEyeSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { setToken } from '../../actions';
-
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
 
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
-    const [error, setError] = useState(false);
     const [showPassword, setShowPassword] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
 
     async function handleLogin(){
-        try{
+        try {
             const body = {username, password};
             const response = await axios.post('http://localhost:8080/login', body);
-            let token = await response.data.token;
-            let adminId = await response.data.user;
-            localStorage.setItem('token', token)
-            localStorage.setItem('adminId', adminId)
-            dispatch(setToken(token))
-        }
-        catch(error) {
-            console.log(error)
-            setError(true)
+            const token = response.data.token;
+            const adminId = response.data.user;
+            localStorage.setItem('token', token);
+            localStorage.setItem('adminId', adminId);
+            dispatch(setToken(token)); 
+            if(token !== undefined) {
+                navigate('/home');
+                notify(true);
+            }
+            else {
+                notify(false)
+            }
+        } catch(error) {
+            console.log(error);
+            notify(false); 
         }
     }
-
+    
+    function notify(loginSuccess) {
+        if (loginSuccess) {
+            toast.success("Login Success");
+        } else {
+            toast.error("Invalid Credentials");
+        }
+    }
   return (
     <>
-    {error 
-        ? 
-            alert("some error occurred")
-        :
     <div className='flex flex-col justify-center items-center text-white h-screen mb-96'>
         <h3 className='text-4xl mb-24'>
             Admin Login
@@ -69,11 +79,7 @@ function Login() {
             </button>
             </div>
         </div>
-        <Link className='mx-2 text-orange-200' to="/home">
-            <button className='text-orange-200 rounded-3xl h-16 w-60 mt-12 bg-black' onClick={handleLogin}>
-                Login
-            </button>
-        </Link>
+        <button className="text-orange-200 rounded-3xl h-16 w-60 mt-12 bg-black" onClick={handleLogin}>Login</button>
 
         <div className='ml-12 flex mt-6'>
             <h3 className='text-white'>
@@ -83,7 +89,6 @@ function Login() {
         </div>
         </div>
     </div>
-}
     </>
   )
 }
