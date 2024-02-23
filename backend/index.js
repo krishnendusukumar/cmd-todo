@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 8080;
@@ -45,7 +46,7 @@ const Admin = mongoose.model('Admin' , adminSchema);
 const Todo = mongoose.model('Todo', todoSchema);
 
 
-mongoose.connect('mongodb+srv://krrishnendusukumar:INDUK1965@cluster2.oe2wq9r.mongodb.net/',{ 
+mongoose.connect(process.env.MONGODB_URI,{ 
   useNewUrlParser: true, 
   useUnifiedTopology: true,
   dbName: "todo" 
